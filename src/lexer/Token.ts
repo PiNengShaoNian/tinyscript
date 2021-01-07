@@ -28,6 +28,18 @@ export class Token {
     )
   }
 
+  isNumber(): boolean {
+    return this._type === TokenType.FLOAT || this._type === TokenType.INTEGER
+  }
+
+  isOperator(): boolean {
+    return this._type === TokenType.OPERATOR
+  }
+
+  isValue(): boolean {
+    return this.isScalar() || this.isVariable()
+  }
+
   static makeVarOrKeyword(it: PeekIterator<string>): Token {
     let s = ''
 
@@ -312,6 +324,7 @@ export class Token {
           } else {
             return new Token(TokenType.FLOAT, s)
           }
+          break
       }
 
       it.next()

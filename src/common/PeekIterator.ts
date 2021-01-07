@@ -25,7 +25,7 @@ export class PeekIterator<T> {
 
   putBack() {
     if (!this.queueCache.isEmpty()) {
-      this.stackPutBacks.addLast(this.queueCache.removeLast()!)
+      this.stackPutBacks.addFirst(this.queueCache.removeLast()!)
     }
   }
 
@@ -37,14 +37,14 @@ export class PeekIterator<T> {
     let val: T
 
     if (!this.stackPutBacks.isEmpty()) {
-      val = this.stackPutBacks.removeLast()!
+      val = this.stackPutBacks.removeFirst()!
     } else {
       val = this.it.next().value
 
       if (val === undefined) {
-        const temp = this.endToken
+        const temp: T = this.endToken!
         this.endToken = null
-        return temp
+        val = temp
       }
     }
 

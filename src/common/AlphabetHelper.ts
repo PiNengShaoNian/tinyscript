@@ -2,7 +2,7 @@ export class AlphabetHelper {
   private static letterRE = /^[a-zA-Z]$/
   private static numberRE = /^[0-9]$/
   private static literalRE = /^[_a-zA-Z0-9]$/
-  private static operatorRE = /^[-+*/<>=!&|%^]$/
+  private static operatorRE = /^[-+*/<>=!&|%^,]$/
 
   static isLetter(char: string): boolean {
     return this.letterRE.test(char)
@@ -12,7 +12,7 @@ export class AlphabetHelper {
     return this.numberRE.test(char)
   }
 
-  static isLiteral(char: string): boolean {
+  static isLiteral(char: string): boolean { 
     return this.literalRE.test(char)
   }
   static isOperator(char: string): boolean {
