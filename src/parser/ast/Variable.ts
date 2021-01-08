@@ -1,9 +1,10 @@
-import { PeekTokenIterator } from '../util/PeekTokenIterator'
-import { ASTNode } from './ASTNode'
+import { Token } from '../../lexer/Token'
+import { ASTNodeTypes } from './ASTNodeTypes'
 import { Factor } from './Factor'
 
-export class ForStmt extends Factor {
-  constructor(parent: ASTNode, it: PeekTokenIterator) {
-    super(parent, it)
+export class Variable extends Factor {
+  constructor(token: Token) {
+    super(token)
+    this.type = ASTNodeTypes.VARIABLE
   }
 }

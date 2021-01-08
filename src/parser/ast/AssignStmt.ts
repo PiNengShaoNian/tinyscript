@@ -6,14 +6,13 @@ import { Expr } from './Expr'
 import { Factor } from './Factor'
 import { Stmt } from './Stmt'
 
-export class DeclareStmt extends Stmt {
+export class AssignStmt extends Stmt {
   constructor(parent: ASTNode | null) {
-    super(parent, ASTNodeTypes.DECLARE_STMT, 'declare')
+    super(parent, ASTNodeTypes.DECLARE_STMT, 'assign')
   }
 
   static parse(parent: null | ASTNode, it: PeekTokenIterator): ASTNode | null {
-    const stmt = new DeclareStmt(parent)
-    it.nextMatchValue('var')
+    const stmt = new AssignStmt(parent)
     const token = it.peek()!
     const factor = Factor.parse(it)
 

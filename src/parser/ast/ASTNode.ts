@@ -10,7 +10,7 @@ export abstract class ASTNode {
   protected type: ASTNodeTypes | null
 
   constructor(
-    parent: ASTNode | null,
+    parent: ASTNode | null = null,
     type: ASTNodeTypes | null = null,
     label: string | null = null
   ) {
@@ -31,8 +31,16 @@ export abstract class ASTNode {
     return this.lexeme
   }
 
+  getLabel(): string | null {
+    return this.label
+  }
+
   getChildren(): ASTNode[] {
     return this.children
+  }
+
+  getType(): null | ASTNodeTypes {
+    return this.type
   }
 
   setLexeme(token: Token): void {

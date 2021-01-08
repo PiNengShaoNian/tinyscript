@@ -1,13 +1,13 @@
 import { ASTNode } from './ast/ASTNode'
 import { ASTNodeTypes } from './ast/ASTNodeTypes'
 import { Expr } from './ast/Expr'
-import { Scalar } from './ast/Scalar'
+import { Factor } from './ast/Factor'
 import { PeekTokenIterator } from './util/PeekTokenIterator'
 
 export class SimpleParser {
   static parse(it: PeekTokenIterator): ASTNode {
     const expr = new Expr(null)
-    const scalar = new Scalar(expr, it)
+    const scalar = Factor.parse(it)!
 
     if (!it.hasNext()) {
       return scalar

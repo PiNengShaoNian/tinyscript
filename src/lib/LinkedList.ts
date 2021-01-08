@@ -6,7 +6,7 @@ export class DoubleNode<E> {
   ) {}
 }
 
-export const LinkedList = class DoublyLinkedListCircular<E> {
+export class LinkedList<E> {
   private _size = 0
   private _first: DoubleNode<E> | null = null
   private _last: DoubleNode<E> | null = null
