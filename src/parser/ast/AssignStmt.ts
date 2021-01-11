@@ -1,9 +1,9 @@
+import { parseFactor } from '../parseFactor'
 import { ParseExcpetion } from '../util/ParseException'
 import { PeekTokenIterator } from '../util/PeekTokenIterator'
 import { ASTNode } from './ASTNode'
 import { ASTNodeTypes } from './ASTNodeTypes'
 import { Expr } from './Expr'
-import { Factor } from './Factor'
 import { Stmt } from './Stmt'
 
 export class AssignStmt extends Stmt {
@@ -14,7 +14,7 @@ export class AssignStmt extends Stmt {
   static parse(parent: null | ASTNode, it: PeekTokenIterator): ASTNode | null {
     const stmt = new AssignStmt(parent)
     const token = it.peek()!
-    const factor = Factor.parse(it)
+    const factor = parseFactor(it)
 
     if (!factor) {
       throw new ParseExcpetion(token)

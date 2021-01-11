@@ -1,9 +1,9 @@
 import { Token } from '../../lexer/Token'
+import { parseFactor } from '../parseFactor'
 import { PeekTokenIterator } from '../util/PeekTokenIterator'
 import { priorityTable } from '../util/priorityTable'
 import { ASTNode } from './ASTNode'
 import { ASTNodeTypes } from './ASTNodeTypes'
-import { Factor } from './Factor'
 import { Stmt } from './Stmt'
 
 export class Expr extends Stmt {
@@ -118,7 +118,7 @@ export class Expr extends Stmt {
   private static F(_: ASTNode | null, it: PeekTokenIterator): ASTNode {
     // const token = it.peek()!
 
-    return Factor.parse(it)!
+    return parseFactor(it)!
     // if (token.isVariable()) {
     //   return new Variable(parent, it)
     // } else {

@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import { AlphabetHelper } from '../common/AlphabetHelper'
 import { iterableToGenerator } from '../common/iterableToGenerator'
 import { PeekIterator } from '../common/PeekIterator'
@@ -17,7 +18,7 @@ export class Lexer {
 
       const lookahead = it.peek()!
 
-      if (c === ' ' || c === '\n') continue
+      if (c === ' ' || c === '\n' || c === '\r') continue
 
       if (c === '/') {
         if (lookahead === '/') {
@@ -87,5 +88,14 @@ export class Lexer {
       throw new LexicalException(c)
     }
     return tokens
+  }
+
+  static fromFile(path: string): Token[] {
+    const data = readFileSync(path, {
+      encoding: 'utf-8',
+    })
+    const lexer = new Lexer()
+
+    return lexer.analyse(data)
   }
 }
