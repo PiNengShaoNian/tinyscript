@@ -10,7 +10,7 @@ const createExpr = (src: string): ASTNode | null => {
   const tokens = lexer.analyse(iterableToGenerator(src))
   const it = new PeekTokenIterator(iterableToGenerator(tokens))
 
-  return Expr.parse(null, it)
+  return Expr.parse(it)
 }
 
 test('ParseExpr', () => {

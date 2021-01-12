@@ -6,25 +6,22 @@ import { IfStmt } from './ast/IfStmt'
 import { ReturnStmt } from './ast/ReturnStmt'
 import { PeekTokenIterator } from './util/PeekTokenIterator'
 
-export const parseStmt = (
-  parent: ASTNode | null,
-  it: PeekTokenIterator
-): ASTNode | null => {
+export const parseStmt = (it: PeekTokenIterator): ASTNode | null => {
   const token = it.next()!
   const lookahead = it.peek()!
 
   it.putBack()
 
   if (token.isVariable() && lookahead.getValue() === '=') {
-    return AssignStmt.parse(parent, it)
+    return AssignStmt.parse(it)
   } else if (token.getValue() === 'var') {
-    return DeclareStmt.parse(parent, it)
+    return DeclareStmt.parse(it)
   } else if (token.getValue() === 'func') {
-    return FunctionDeclareStmt.parse(parent, it)
+    return FunctionDeclareStmt.parse(it)
   } else if (token.getValue() === 'return') {
     return ReturnStmt.parse(it)
   } else if (token.getValue() === 'if') {
-    return IfStmt.parse(parent, it)
+    return IfStmt.parse(it)
   }
 
   return null

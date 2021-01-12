@@ -3,18 +3,13 @@ import { ASTNodeTypes } from './ASTNodeTypes'
 
 export abstract class ASTNode {
   protected children: ASTNode[] = []
-  protected parent: ASTNode | null
+  protected parent: ASTNode | null = null
 
   protected lexeme: Token | null = null
   protected label: string | null
   protected type: ASTNodeTypes | null
 
-  constructor(
-    parent: ASTNode | null = null,
-    type: ASTNodeTypes | null = null,
-    label: string | null = null
-  ) {
-    this.parent = parent
+  constructor(type: ASTNodeTypes | null = null, label: string | null = null) {
     this.type = type
     this.label = label
   }
@@ -24,6 +19,7 @@ export abstract class ASTNode {
   }
 
   addChild(node: ASTNode): void {
+    node.parent = this
     this.children.push(node)
   }
 

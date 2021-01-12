@@ -6,39 +6,33 @@ import { Expr } from './Expr'
 import { Stmt } from './Stmt'
 
 export class IfStmt extends Stmt {
-  constructor(parent: ASTNode | null) {
-    super(parent, ASTNodeTypes.IF_STMT, 'if')
+  constructor() {
+    super(ASTNodeTypes.IF_STMT, 'if')
   }
 
-  static parse(parent: ASTNode | null, it: PeekTokenIterator): ASTNode | null {
-    return this.parseIf(parent, it)
+  static parse(it: PeekTokenIterator): ASTNode | null {
+    return this.parseIf(it)
   }
 
-  static parseIf(
-    parent: ASTNode | null,
-    it: PeekTokenIterator
-  ): ASTNode | null {
+  static parseIf(it: PeekTokenIterator): ASTNode | null {
     const lexeme = it.nextMatchValue('if')
     it.nextMatchValue('(')
-    const ifStmt = new IfStmt(parent)
+    const ifStmt = new IfStmt()
     ifStmt.setLexeme(lexeme)
-    const expr = Expr.parse(parent, it)!
+    const expr = Expr.parse(it)!
     ifStmt.addChild(expr)
     it.nextMatchValue(')')
 
-    const block = Block.parse(parent, it)!
+    const block = Block.parse(it)!
     ifStmt.addChild(block)
 
-    const tail = this.parseTail(parent, it)
+    const tail = this.parseTail(it)
     if (tail) ifStmt.addChild(tail)
 
     return ifStmt
   }
 
-  static parseTail(
-    parent: ASTNode | null,
-    it: PeekTokenIterator
-  ): ASTNode | null {
+  static parseTail(it: PeekTokenIterator): ASTNode | null {
     if (!it.hasNext() || it.peek()!.getValue() !== 'else') {
       return null
     }
@@ -47,9 +41,9 @@ export class IfStmt extends Stmt {
     const lookhead = it.peek()!
 
     if (lookhead.getValue() === '{') {
-      return Block.parse(parent, it)
+      return Block.parse(it)
     } else if (lookhead.getValue() === 'if') {
-      return this.parseIf(parent, it)
+      return this.parseIf(it)
     } else return null
   }
 }

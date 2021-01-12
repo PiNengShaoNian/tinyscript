@@ -18,7 +18,7 @@ describe('Stmt', () => {
       iterableToGenerator(lexer.analyse(iterableToGenerator('var i = 100 * 2')))
     )
 
-    const stmt = DeclareStmt.parse(null, it)
+    const stmt = DeclareStmt.parse(it)
     expect(ParserUtils.toPostfixExpression(stmt)).toBe('i 100 2 * declare')
   })
 
@@ -29,7 +29,7 @@ describe('Stmt', () => {
       iterableToGenerator(lexer.analyse(iterableToGenerator('i = 100 * 2')))
     )
 
-    const stmt = AssignStmt.parse(null, it)
+    const stmt = AssignStmt.parse(it)
     expect(ParserUtils.toPostfixExpression(stmt)).toBe('i 100 2 * assign')
   })
 
@@ -45,7 +45,7 @@ describe('Stmt', () => {
       )
     )
 
-    const stmt = IfStmt.parse(null, it)!
+    const stmt = IfStmt.parse(it)!
     const expr = stmt.getChild(0)
     const block = stmt.getChild(1)
     const assignStmt = block.getChild(0)
@@ -69,7 +69,7 @@ describe('Stmt', () => {
       )
     )
 
-    const stmt = IfStmt.parse(null, it)!
+    const stmt = IfStmt.parse(it)!
     const expr = stmt.getChild(0)
     const block = stmt.getChild(1)
     const assignStmt = block.getChild(0)
@@ -88,7 +88,7 @@ describe('Stmt', () => {
     )
     const it = new PeekTokenIterator(iterableToGenerator(tokens))
 
-    const functionStmt = parseStmt(null, it) as FunctionDeclareStmt
+    const functionStmt = parseStmt(it) as FunctionDeclareStmt
 
     const args = functionStmt.getArgs()
 
@@ -100,22 +100,21 @@ describe('Stmt', () => {
     expect(block.getChild(0)).toBeInstanceOf(ReturnStmt)
   })
 
-  //   test('recursion function', () => {
-  //     const tokens = Lexer.fromFile(
-  //       path.join(__dirname, '../../../example/recursion.tiny')
-  //     )
-  //     const it = new PeekTokenIterator(iterableToGenerator(tokens))
+  test('recursion function', () => {
+    const tokens = Lexer.fromFile(
+      path.join(__dirname, '../../../example/recursion.tiny')
+    )
+    const it = new PeekTokenIterator(iterableToGenerator(tokens))
 
-  //     const functionStmt = parseStmt(null, it) as FunctionDeclareStmt
+    const functionStmt = parseStmt(it) as FunctionDeclareStmt
 
-  //     functionStmt.print()
-  //     const args = functionStmt.getArgs()
+    const args = functionStmt.getArgs()
 
-  //     expect(args.getChild(0).getLexeme()!.getValue()).toBe('a')
-  //     expect(args.getChild(1).getLexeme()!.getValue()).toBe('b')
+    expect(args.getChild(0).getLexeme()!.getValue()).toBe('n')
 
-  //     const block = functionStmt.getBlock()
+    const block = functionStmt.getBlock()
 
-  //     expect(block.getChild(0)).toBeInstanceOf(ReturnStmt)
-  //   })
+    expect(block.getChild(0)).toBeInstanceOf(IfStmt)
+    expect(block.getChild(1)).toBeInstanceOf(ReturnStmt)
+  })
 })

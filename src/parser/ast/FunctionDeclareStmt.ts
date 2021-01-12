@@ -8,23 +8,23 @@ import { Stmt } from './Stmt'
 import { Variable } from './Variable'
 
 export class FunctionDeclareStmt extends Stmt {
-  constructor(parent: ASTNode | null) {
-    super(parent, ASTNodeTypes.FUNCTION_DECLEAR_STMT, 'func')
+  constructor() {
+    super(ASTNodeTypes.FUNCTION_DECLEAR_STMT, 'func')
   }
 
-  static parse(parent: ASTNode | null, it: PeekTokenIterator): ASTNode | null {
+  static parse(it: PeekTokenIterator): ASTNode | null {
     it.nextMatchValue('func')
-    const func = new FunctionDeclareStmt(parent)
+    const func = new FunctionDeclareStmt()
     const lexeme = it.peek()!
     func.setLexeme(lexeme)
     const functionVariable = parseFactor(it)!
     func.addChild(functionVariable)
     it.nextMatchValue('(')
-    const args = FunctionArgs.parse(parent, it)
+    const args = FunctionArgs.parse(it)
     it.nextMatchValue(')')
     func.addChild(args)
 
-    const block = Block.parse(parent, it)!
+    const block = Block.parse(it)!
     func.addChild(block)
 
     return func

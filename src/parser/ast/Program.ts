@@ -5,14 +5,14 @@ import { ASTNodeTypes } from './ASTNodeTypes'
 import { Stmt } from './Stmt'
 
 export class Program extends Stmt {
-  constructor(parent: ASTNode | null) {
-    super(parent, ASTNodeTypes.BLOCK, 'program')
+  constructor() {
+    super(ASTNodeTypes.BLOCK, 'program')
   }
 
-  static parse(parent: null | ASTNode, it: PeekTokenIterator): ASTNode | null {
-    const block = new Program(parent)
+  static parse(it: PeekTokenIterator): ASTNode | null {
+    const block = new Program()
     let stmt: ASTNode | null = null
-    while ((stmt = parseStmt(parent, it)) !== null) {
+    while ((stmt = parseStmt(it)) !== null) {
       block.addChild(stmt)
     }
 

@@ -7,12 +7,12 @@ import { Expr } from './Expr'
 import { Stmt } from './Stmt'
 
 export class DeclareStmt extends Stmt {
-  constructor(parent: ASTNode | null) {
-    super(parent, ASTNodeTypes.DECLARE_STMT, 'declare')
+  constructor() {
+    super(ASTNodeTypes.DECLARE_STMT, 'declare')
   }
 
-  static parse(parent: null | ASTNode, it: PeekTokenIterator): ASTNode | null {
-    const stmt = new DeclareStmt(parent)
+  static parse(it: PeekTokenIterator): ASTNode | null {
+    const stmt = new DeclareStmt()
     it.nextMatchValue('var')
     const token = it.peek()!
     const factor = parseFactor(it)
@@ -23,7 +23,7 @@ export class DeclareStmt extends Stmt {
 
     stmt.addChild(factor)
     const lexeme = it.nextMatchValue('=')
-    const expr = Expr.parse(parent, it)!
+    const expr = Expr.parse(it)!
     stmt.addChild(expr)
     stmt.setLexeme(lexeme)
 

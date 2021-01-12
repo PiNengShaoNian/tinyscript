@@ -6,12 +6,12 @@ import { Stmt } from './Stmt'
 
 export class ReturnStmt extends Stmt {
   constructor() {
-    super(null, ASTNodeTypes.RETURN_STMT, 'return')
+    super(ASTNodeTypes.RETURN_STMT, 'return')
   }
 
   static parse(it: PeekTokenIterator): ASTNode {
     const lexeme = it.nextMatchValue('return')
-    const expr = Expr.parse(null, it)!
+    const expr = Expr.parse(it)!
     const stmt = new ReturnStmt()
     stmt.setLexeme(lexeme)
     stmt.addChild(expr)
